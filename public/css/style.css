@@ -2,15 +2,20 @@
   font-family: "Flappybirdy";
   src:
     local("Flappybirdy"),
-    url("./fonts/flappybirdy-font/FlappybirdyRegular-KaBW.ttf") format("truetype");
+    url("../fonts/flappybirdy-font/FlappybirdyRegular-KaBW.ttf") format("truetype");
 }
 
-* {
-  font-family: "Flappybirdy";
-  -webkit-font-smoothing: none;
+@font-face {
+  font-family: "Pixeloid";
+  src:
+    local("Pixeloid"),
+    url("../fonts/pixeloid-font/PixeloidSans-mLxMm.ttf") format("truetype");
 }
 
 body {
+  font-family: "Pixeloid";
+  -webkit-font-smoothing: none;
+  margin: 0;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -18,7 +23,8 @@ body {
   overflow: hidden;
 }
 
-#menu {
+.menu {
+  font-family: "Flappybirdy";
   padding-top: calc(2rem + 8vh);
 
   display: flex;
@@ -28,6 +34,11 @@ body {
   #title {
     font-size: calc(2em + 96px);
     margin-bottom: 0.2em;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
   }
 
   button {
