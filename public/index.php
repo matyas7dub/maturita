@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<link href="./css/style.css" rel="stylesheet"/>
 <head>
+<link href="./css/style.css" rel="stylesheet"/>
 <title>Flappy bird</title>
 </head>
 <body>
@@ -12,7 +12,5 @@
     <a href="/scoreboard.php"><button>Scoreboard</button></a>
     <a href="/login.php"><button>Login</button></a>
 </div>
-<script>
-</script>
 </body>
 </html>

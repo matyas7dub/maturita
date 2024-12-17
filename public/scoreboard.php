@@ -2,6 +2,7 @@
 <html>
 <head>
 <link href="./css/style.css" rel="stylesheet"/>
+<title>Flappy bird: Scoreboard</title>
 <style>
 table {
     margin-top: calc(2rem + 10vh);

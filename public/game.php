@@ -2,6 +2,7 @@
 <html>
 <head>
 <link href="./css/style.css" rel="stylesheet"/>
+<title>Flappy bird</title>
 <style>
 canvas {
     width: 100vw;
