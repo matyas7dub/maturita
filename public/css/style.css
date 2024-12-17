@@ -36,26 +36,42 @@ body {
     margin-bottom: 0.2em;
   }
 
-  a {
-    color: inherit;
-    text-decoration: inherit;
-  }
-
   button {
-    all: unset;
-    cursor: pointer;
-    margin: 0.15em;
     font-size: calc(1em + 48px);
-    padding: 0.1em;
-    padding-left: 0.7em;
-    padding-right: 0.7em;
-    box-shadow: -0.1em 0 0 0 black,
-                0.1em 0 0 0 black,
-                0 -0.1em 0 0 black,
-                0 0.1em 0 0 black;
   }
 
   button:hover {
     background: yellow;
   }
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+  cursor: pointer;
+}
+
+button, input {
+  all: unset;
+  margin: 0.15em;
+  padding: 0.1em;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  box-shadow: min(-2px, -0.1em) 0 0 0 black,
+              max(2px, 0.1em) 0 0 0 black,
+              0 min(-2px, -0.1em) 0 0 black,
+              0 max(2px, 0.1em) 0 0 black;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input {
+  cursor: text;
 }
