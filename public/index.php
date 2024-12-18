@@ -8,9 +8,9 @@
 <div class="menu">
     <span id="title">Flappy bird</span>
 
-    <a href="/game.php"><button>Play</button></a>
-    <a href="/scoreboard.php"><button>Scoreboard</button></a>
-    <a href="/login.php"><button>Login</button></a>
+    <a href="./game.php"><button>Play</button></a>
+    <a href="./scoreboard.php"><button>Scoreboard</button></a>
+    <a href="./login.php"><button>Login</button></a>
 </div>
 </body>
 </html>

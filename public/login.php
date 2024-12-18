@@ -16,7 +16,7 @@
         <input id="password" type="password" />
     </div>
 
-    <a href="/register.php" style="align-self: center; margin: 1em;"
+    <a href="./register.php" style="align-self: center; margin: 1em;"
     >Not registered? Make an account</a>
 
     <button onclick="login()">Login</button>
