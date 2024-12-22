@@ -1,8 +1,13 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <link href="./css/style.css" rel="stylesheet"/>
 <link href="./css/userForm.css" rel="stylesheet"/>
+<script src="../src/crypto.js"></script>
 <title>Flappy bird: Login</title>
 </head>
 <body>
@@ -16,8 +21,10 @@
         <input id="password" type="password" />
     </div>
 
-    <a href="./register.php" style="align-self: center; margin: 1em;"
-    >Not registered? Make an account</a>
+    <span id="error" class="error">Invalid credentials!</span>
+
+    <a href="./register.html" style="align-self: center; margin: 1em;"
+    >Not registered yet? Make an account here!</a>
 
     <button onclick="login()">Login</button>
 </div>
@@ -25,11 +32,19 @@
 const nameInput = document.getElementById("name");
 const passInput = document.getElementById("password");
 
-function login() {
+async function login() {
     const name = nameInput.value;
-    const password = passInput.value;
+    const password = await sha256(passInput.value);
 
-    console.debug(`Name: ${name}, password: ${password}`);
+    fetch(`./user.php?name=${name}&password=${password}`)
+    .then(response => {
+        const errElem = document.getElementById("error");
+        if (response.ok) {
+            window.location.assign("./index.php");
+        } else {
+            errElem.style.display = "block";
+        }
+    });
 }
 </script>
 </body>

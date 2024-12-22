@@ -13,7 +13,7 @@
       ];
 
       shellHook = ''
-        screen -dmS php frankenphp php-server --root ./public/ --listen localhost:3000
+        screen -dmS php frankenphp php-server --listen localhost:3000
         fish
       '';
     };
