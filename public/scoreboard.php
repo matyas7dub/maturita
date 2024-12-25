@@ -14,6 +14,7 @@ body {
 
 h1 {
     margin-top: calc(2rem + 5vh);
+    font-size: 3rem;
 }
 
 table {

@@ -12,28 +12,30 @@ button {
 </style>
 </head>
 <body>
-<div class="container">
+<h1>Register</h1>
+
+<form onSubmit="register(event)">
     <div>
         <label for="username">Username</label>
-        <input id="username" type="text" />
+        <input id="username" type="text" required />
     </div>
     <div>
         <label for="email">E-Mail</label>
-        <input id="email" type="email" />
+        <input id="email" type="email" required />
     </div>
     <div>
         <label for="password1">Password</label>
-        <input id="password1" type="password" />
+        <input id="password1" type="password" required />
     </div>
     <div>
         <label for="password2">Repeat password</label>
-        <input id="password2" type="password" />
+        <input id="password2" type="password" required />
     </div>
     <span id="passwordErr" class="error">Passwords must match!</span>
     <span id="error" class="error"></span>
 
-    <button id="regButton" onclick="register()">Register</button>
-</div>
+    <input id="regButton" class="submit" type="submit" value="Register" />
+</form>
 <script>
 const usernameElem = document.getElementById("username");
 const emailElem = document.getElementById("email");
@@ -62,7 +64,9 @@ function checkPasswords(first, second) {
     }
 }
 
-async function register() {
+async function register(event) {
+    event.preventDefault();
+
     const pass = pass1.value;
     const passCheck = pass2.value;
     if (pass !== passCheck) {

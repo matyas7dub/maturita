@@ -11,14 +11,16 @@
 <title>Flappy bird: Login</title>
 </head>
 <body>
-<div class="container">
+<h1>Login</h1>
+
+<form onsubmit="login(event)">
     <div>
         <label for="name">Username/E-Mail</label>
-        <input id="name" type="text" />
+        <input id="name" type="text" required />
     </div>
     <div>
         <label for="password">Password</label>
-        <input id="password" type="password" />
+        <input id="password" type="password" required />
     </div>
 
     <span id="error" class="error">Invalid credentials!</span>
@@ -26,13 +28,18 @@
     <a href="./register.html" style="align-self: center; margin: 1em;"
     >Not registered yet? Make an account here!</a>
 
-    <button onclick="login()">Login</button>
-</div>
+    <input class="submit" type="submit" value="Login" />
+</form>
 <script>
 const nameInput = document.getElementById("name");
 const passInput = document.getElementById("password");
 
-async function login() {
+async function login(event) {
+    event.preventDefault();
+
+    if (!nameInput.value || !passInput.value) {
+        return;
+    }
     const name = nameInput.value;
     const password = await sha256(passInput.value);
 

@@ -1,7 +1,14 @@
-.container {
+h1 {
+    font-size: 3rem;
+}
+
+body {
+    padding-top: calc(15vh + 3em);
+}
+
+form {
     display: flex;
     flex-direction: column;
-    margin-top: calc(15vh + 3em);
     font-size: 2rem;
 
     >div {
@@ -15,7 +22,7 @@
         }
     }
 
-    button {
+    button, input.submit {
         align-self: flex-end;
     }
 

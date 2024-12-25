@@ -51,7 +51,7 @@ a {
   cursor: pointer;
 }
 
-button, input, table {
+button, input, table, input.submit {
   all: unset;
   margin: 0.15em;
   padding: 0.1em;
@@ -63,11 +63,11 @@ button, input, table {
               0 max(2px, 0.1em) 0 0 black;
 }
 
-button {
+button, input.submit {
   cursor: pointer;
 }
 
-button:disabled {
+button:disabled, input.submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
