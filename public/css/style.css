@@ -51,7 +51,7 @@ a {
   cursor: pointer;
 }
 
-button, input {
+button, input, table {
   all: unset;
   margin: 0.15em;
   padding: 0.1em;
@@ -74,4 +74,8 @@ button:disabled {
 
 input {
   cursor: text;
+}
+
+table {
+  padding: 0;
 }
