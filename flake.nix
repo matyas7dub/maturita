@@ -14,7 +14,6 @@
 
       shellHook = ''
         screen -dmS php frankenphp php-server --listen localhost:3000
-        fish
       '';
     };
   };

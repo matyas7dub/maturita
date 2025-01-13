@@ -7,6 +7,7 @@
 <head>
 <link href="./css/style.css" rel="stylesheet"/>
 <link href="./css/userForm.css" rel="stylesheet"/>
+<link href="../favicon.png" rel="icon">
 <script src="../src/crypto.js"></script>
 <title>Flappy bird: Login</title>
 </head>

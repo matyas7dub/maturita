@@ -2,6 +2,7 @@
 <html>
 <head>
 <link href="./css/style.css" rel="stylesheet"/>
+<link href="../favicon.png" rel="icon">
 <title>Flappy bird</title>
 </head>
 <body>
