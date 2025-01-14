@@ -8,8 +8,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         if (isset($_GET["name"]) && isset($_GET["password"])) {
             http_response_code(500);
 
-            $name = $_GET["name"];
-            $password = $_GET["password"];
+            $name = mysqli_real_escape_string($conn, $_GET["name"]);
+            $password = mysqli_real_escape_string($conn, $_GET["password"]);
 
             $result = $conn->query("
                 SELECT * FROM users WHERE
@@ -36,9 +36,9 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             isset($input["password"])) {
             http_response_code(500);
 
-            $username = $input["username"];
-            $email = $input["email"];
-            $password = $input["password"];
+            $username = mysqli_real_escape_string($conn, $input["username"]);
+            $email = mysqli_real_escape_string($conn, $input["email"]);
+            $password = mysqli_real_escape_string($conn, $input["password"]);
 
             $result = $conn->query("
                 SELECT username, email FROM users WHERE
@@ -67,19 +67,19 @@ switch ($_SERVER["REQUEST_METHOD"]) {
     case "PUT":
         $id = $_SESSION["id"];
         $input = json_decode(file_get_contents("php://input"), true);
-        $authPassword = $_SERVER["HTTP_AUTHORIZATION"];
+        $authPassword = mysqli_real_escape_string($conn, $_SERVER["HTTP_AUTHORIZATION"]);
 
         $values = array();
         if (isset($input["username"])) {
-            $username = $input["username"];
+            $username = mysqli_real_escape_string($conn, $input["username"]);
             $values[] = "username=\"$username\"";
         }
         if (isset($input["email"])) {
-            $email = $input["email"];
+            $email = mysqli_real_escape_string($conn, $input["email"]);
             $values[] = "email=\"$email\"";
         }
         if (isset($input["password"])) {
-            $password = $input["password"];
+            $password = mysqli_real_escape_string($conn, $input["password"]);
             $values[] = "password=\"$password\"";
         }
 
