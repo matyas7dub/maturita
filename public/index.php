@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +15,13 @@
 
     <a href="./game.php"><button>Play</button></a>
     <a href="./scoreboard.php"><button>Scoreboard</button></a>
-    <a href="./login.php"><button>Login</button></a>
+    <?php
+    if (isset($_SESSION["username"]) && isset($_SESSION["id"])) {
+        echo "<a href=\"./account.php\"><button>Account</button></a>";
+    } else {
+        echo "<a href=\"./login.php\"><button>Login</button></a>";
+    }
+    ?>
 </div>
 </body>
 </html>

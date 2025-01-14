@@ -63,5 +63,48 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
         }
         break;
+
+    case "PUT":
+        $id = $_SESSION["id"];
+        $input = json_decode(file_get_contents("php://input"), true);
+        $authPassword = $_SERVER["HTTP_AUTHORIZATION"];
+
+        $values = array();
+        if (isset($input["username"])) {
+            $username = $input["username"];
+            $values[] = "username=\"$username\"";
+        }
+        if (isset($input["email"])) {
+            $email = $input["email"];
+            $values[] = "email=\"$email\"";
+        }
+        if (isset($input["password"])) {
+            $password = $input["password"];
+            $values[] = "password=\"$password\"";
+        }
+
+        if (count($values) === 0) {
+            break;
+        }
+
+        $columns = implode(", ", $values);
+
+        $result = $conn->query("
+                UPDATE users
+                    SET $columns
+                    WHERE id=$id AND password=\"$authPassword\";
+            ");
+
+        if (mysqli_affected_rows($conn)) {
+            if (isset($input["username"])) {
+                $_SESSION["username"] = $input["username"];
+            }
+            if (isset($input["email"])) {
+                $_SESSION["email"] = $input["email"];
+            }
+
+            http_response_code(200);
+        }
+        break;
 }
 ?>
