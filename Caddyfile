@@ -1,0 +1,18 @@
+{
+	frankenphp
+	order php_server before file_server
+}
+
+localhost {
+	encode zstd br gzip
+
+	rewrite / /index.php
+
+	php_server /* {
+		root ./public
+	}
+
+	file_server /src/* {
+		root .
+	}
+}

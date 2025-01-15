@@ -5,10 +5,10 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<link href="./css/style.css" rel="stylesheet"/>
-<link href="./css/userForm.css" rel="stylesheet"/>
-<link href="../favicon.png" rel="icon">
-<script src="../src/crypto.js"></script>
+<link href="/css/style.css" rel="stylesheet"/>
+<link href="/css/userForm.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon">
+<script src="/src/crypto.js"></script>
 <title>Flappy bird: Login</title>
 </head>
 <body>
@@ -26,7 +26,7 @@ session_start();
 
     <span id="error" class="error">Invalid credentials!</span>
 
-    <a href="./register.html" style="align-self: center; margin: 1em;"
+    <a href="/register.html" style="align-self: center; margin: 1em;"
     >Not registered yet? Make an account here!</a>
 
     <input class="submit" type="submit" value="Login" />
@@ -44,11 +44,11 @@ async function login(event) {
     const name = nameInput.value;
     const password = await sha256(passInput.value);
 
-    fetch(`./user.php?name=${name}&password=${password}`)
+    fetch(`/user.php?name=${name}&password=${password}`)
     .then(response => {
         const errElem = document.getElementById("error");
         if (response.ok) {
-            window.location.assign("./index.php");
+            window.location = "/";
         } else {
             errElem.style.display = "block";
         }

@@ -10,10 +10,11 @@
 
       buildInputs = with pkgs; [
         frankenphp
+        nss
       ];
 
       shellHook = ''
-        screen -dmS php frankenphp php-server --listen localhost:3000
+        sudo frankenphp run --envfile ./.env
       '';
     };
   };

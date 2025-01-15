@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="./css/style.css" rel="stylesheet"/>
-<link href="./css/userForm.css" rel="stylesheet"/>
-<script src="../src/crypto.js"></script>
+<link href="/css/style.css" rel="stylesheet"/>
+<link href="/css/userForm.css" rel="stylesheet"/>
+<script src="/src/crypto.js"></script>
 <title>Flappy bird: Register</title>
 <style>
 button {
@@ -80,13 +80,13 @@ async function register(event) {
         password: await sha256(pass)
     };
 
-    fetch("./user.php", {
+    fetch("/user.php", {
         method: "POST",
         body: JSON.stringify(user)
     })
     .then(async response => {
         if (response.ok) {
-            window.location.assign("./login.php");
+            window.location.assign("/login.php");
         } else {
             const errElem = document.getElementById("error");
             const error = await response.text();

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="./css/style.css" rel="stylesheet"/>
-<link href="../favicon.png" rel="icon">
+<link href="/css/style.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon">
 <title>Flappy bird</title>
 <style>
 canvas {

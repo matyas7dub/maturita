@@ -5,7 +5,7 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<link href="./css/style.css" rel="stylesheet"/>
+<link href="/css/style.css" rel="stylesheet"/>
 <title>Flappy bird: Scoreboard</title>
 <style>
 body {

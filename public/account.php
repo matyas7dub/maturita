@@ -21,10 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] === "REMOVE") {
 <!DOCTYPE html>
 <html>
 <head>
-<link href="./css/style.css" rel="stylesheet"/>
-<link href="./css/userForm.css" rel="stylesheet"/>
-<link href="../favicon.png" rel="icon">
-<script src="../src/crypto.js"></script>
+<link href="/css/style.css" rel="stylesheet"/>
+<link href="/css/userForm.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon">
+<script src="/src/crypto.js"></script>
 <title><?php echo $_SESSION["username"]; ?></title>
 </head>
 <body>
@@ -117,7 +117,7 @@ async function update(event) {
     const header = new Headers();
     header.append("Authorization", await sha256(bearer));
 
-    fetch("./user.php", {
+    fetch("/user.php", {
         method: "PUT",
         body: JSON.stringify(request),
         headers: header
@@ -128,8 +128,8 @@ async function update(event) {
 }
 
 function logout() {
-    fetch("./account.php", { method: "REMOVE" }).then(() => {
-        window.location = "./index.php";
+    fetch("/account.php", { method: "REMOVE" }).then(() => {
+        window.location = "/";
     });
 }
 </script>
