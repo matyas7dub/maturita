@@ -3,7 +3,7 @@
 	order php_server before file_server
 }
 
-localhost {
+bird.7dub.dev {
 	encode zstd br gzip
 
 	rewrite / /index.php
