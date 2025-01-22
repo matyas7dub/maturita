@@ -1,6 +1,7 @@
 {
 	frankenphp
 	order file_server before php_server
+	http_port {$PORT:80}
 }
 
 {$DOMAIN:localhost} {

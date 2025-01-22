@@ -14,7 +14,9 @@
       ];
 
       shellHook = ''
-        sudo frankenphp run --envfile ./.env
+        export DOMAIN=localhost:3000
+        export PORT=3080
+        screen -dmS php frankenphp run --envfile ./.env
       '';
     };
   };
