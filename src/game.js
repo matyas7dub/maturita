@@ -4,13 +4,15 @@ function startGame(ctx) {
   const gravity = 0.35;
   const spriteScale = 2;
   const pipeGap = 150;
+  const pipeDistance = 0.7;
 
   const bird = {
     downflap: new Image(),
     midflap: new Image(),
     upflap: new Image(),
     width: 34,
-    height: 24
+    height: 24,
+    radius: 34 * spriteScale * 0.4
   };
   bird.downflap.src = "/assets/yellowbird-downflap.png";
   bird.midflap.src = "/assets/yellowbird-midflap.png";
@@ -33,17 +35,14 @@ function startGame(ctx) {
         y: 0
       }
     },
-    pipes: [{
-      x: 1.5,
-      y: Math.random()/3 + 0.2
-    }, {
-      x: window.innerWidth/window.innerHeight + 0.7,
-      y: Math.random()/3 + 0.2
-    }],
+    pipes: [],
     pace: 7,
     baseOffset: 0,
     alive: true
   };
+
+  spawnPipe();
+  spawnPipe();
 
   addEventListener("keypress", event => {
     if (event.key === " " && state.alive) {
@@ -53,10 +52,13 @@ function startGame(ctx) {
 
   addEventListener("resize", () => {
     baseLevel = window.innerHeight * 0.9;
+    state.bird.x = window.innerHeight / 4;
   });
 
-
-
+  // The framerate is set to 60 exactly because of poor sub-milisecond time
+  // measurements in browsers (due to security reasons). Most frames render in
+  // <1ms to 3ms, which means that physics with deltaTime is very inconsistent,
+  // if not completely broken since a large portion of frames render "in 0ms"
   setInterval(mainLoop, 1000/60);
 
   function mainLoop() {
@@ -73,6 +75,7 @@ function startGame(ctx) {
     }
 
     drawBird();
+
     for (let x = 0; x < window.innerWidth + state.baseOffset; x += base.width * spriteScale) {
       ctx.drawImage(base, x - state.baseOffset, baseLevel, base.width * spriteScale, base.height * spriteScale);
     }
@@ -82,11 +85,13 @@ function startGame(ctx) {
     state.bird.force.y += gravity;
     state.bird.y += state.bird.force.y;
 
+    // Top border collisions
     if (state.bird.y < -bird.height * spriteScale) {
       state.bird.y = -bird.height * spriteScale;
       state.bird.force.y = -state.bird.force.y;
     }
 
+    // Ground collisions
     if (state.bird.y >= baseLevel - bird.height * spriteScale / 2) {
       state.bird.y = baseLevel - bird.height * spriteScale / 2;
       state.bird.force.y = - Math.floor(state.bird.force.y * 0.7);
@@ -95,12 +100,12 @@ function startGame(ctx) {
     for (let pos of state.pipes) {
       pos.x -= state.pace / window.innerHeight * state.alive;
 
-      const hitboxRadius = bird.width * spriteScale * 0.4;
+      // Pipe collisions
       const pipeX = pos.x * window.innerHeight;
       const pipeY = window.innerHeight - pos.y * window.innerHeight;
 
-      const betweenPipes = state.bird.x + hitboxRadius > pipeX && state.bird.x - hitboxRadius < pipeX + pipe.width * spriteScale;
-      const inGap = state.bird.y + hitboxRadius < pipeY && state.bird.y - hitboxRadius > pipeY - pipeGap * spriteScale;
+      const betweenPipes = state.bird.x + bird.radius > pipeX && state.bird.x - bird.radius < pipeX + pipe.width * spriteScale;
+      const inGap = state.bird.y + bird.radius < pipeY && state.bird.y - bird.radius > pipeY - pipeGap * spriteScale;
       if (betweenPipes && !inGap) {
         if (state.alive) {
           state.bird.force.y = -10;
@@ -111,12 +116,8 @@ function startGame(ctx) {
 
 
     state.pipes = state.pipes.filter(pos => pos.x * window.innerHeight >= -pipe.width * spriteScale);
-    const pipeCount = state.pipes.length;
-    if (pipeCount < 2 && state.pipes[pipeCount - 1].x < 1.5) {
-      state.pipes.push({
-        x: window.innerWidth / window.innerHeight,
-        y: Math.random()/3 + 0.2
-      });
+    if (state.pipes.length < window.innerWidth/window.innerHeight/pipeDistance) {
+      spawnPipe()
     }
 
     state.pace += 1/1_000 * state.alive;
@@ -136,9 +137,8 @@ function startGame(ctx) {
 
     // Hitbox
     // 
-    // const radius = bird.width * spriteScale * 0.4;
     // ctx.beginPath();
-    // ctx.ellipse(0, 0, radius, radius, 0, 0, Math.PI * 2);
+    // ctx.ellipse(0, 0, bird.radius, bird.radius, 0, 0, Math.PI * 2);
     // ctx.fill();
     // ctx.closePath();
 
@@ -146,6 +146,16 @@ function startGame(ctx) {
 
     ctx.rotate(-rotation);
     ctx.translate(-state.bird.x, -state.bird.y);
+  }
+
+  function spawnPipe() {
+    state.pipes.push({
+      x: state.pipes.length === 0 ?
+        window.innerWidth/window.innerHeight :
+        state.pipes[state.pipes.length - 1].x + pipeDistance,
+      y: Math.random()/3 + 0.2,
+      passed: false
+    });
   }
 }
 
