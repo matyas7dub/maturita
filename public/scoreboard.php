@@ -6,6 +6,7 @@ session_start();
 <html>
 <head>
 <link href="/css/style.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon">
 <title>Flappy bird: Scoreboard</title>
 <style>
 body {
