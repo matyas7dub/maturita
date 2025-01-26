@@ -21,18 +21,23 @@ img {
 </style>
 </head>
 <body>
-<canvas id="mainCanvas" />
+<canvas id="mainCanvas"></canvas>
+<img id="background" style="position: fixed; left: 0;" src="/assets/background-day.png" />
 <script>
-const background = new Image();
-background.src = "/assets/background-day.png";
-background.style.position = "fixed";
-let scale = Math.max(window.innerWidth/background.width, 1);
+const background = document.getElementById("background");
+let bgWidth = 0;
+let bgHeight = 0;
+let scale = 0;
 
-background.width *= scale;
-background.height *= scale;
-background.style.left = "0";
-background.style.bottom = `-${background.width * 0.3}px`;
-document.getElementsByTagName("body")[0].appendChild(background);
+background.onload = () => {
+    console.debug("hello");
+    bgWidth = background.width;
+    bgHeight = background.height;
+    scale = Math.max(window.innerWidth/bgWidth, 1);
+    background.width = bgWidth * scale;
+    background.height = bgHeight * scale;
+    background.style.bottom = `-${background.width * 0.3}px`;
+};
 
 const canvas = document.getElementById("mainCanvas");
 canvas.width = window.innerWidth;
@@ -43,9 +48,9 @@ addEventListener("resize", () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    scale = Math.max(window.innerWidth/background.width, 1);
-    background.width *= scale;
-    background.height *= scale;
+    scale = Math.max(window.innerWidth/bgWidth, 1);
+    background.width = bgWidth * scale;
+    background.height = bgHeight * scale;
 });
 
 const ctx = canvas.getContext("2d");
