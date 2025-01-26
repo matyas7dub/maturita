@@ -1,10 +1,13 @@
 function startGame(ctx) {
   ctx.imageSmoothingEnabled = false;
-  ctx.fillStyle = "red";
+  ctx.textAlign = "center";
+  ctx.strokeStyle = "#533545";
   const gravity = 0.35;
   const spriteScale = 2;
   const pipeGap = 150;
   const pipeDistance = 0.7;
+  ctx.lineWidth = 2 * spriteScale;
+  ctx.font = `${48 * spriteScale}px Pixeloid`;
 
   const bird = {
     downflap: new Image(),
@@ -38,7 +41,8 @@ function startGame(ctx) {
     pipes: [],
     pace: 7,
     baseOffset: 0,
-    alive: true
+    alive: true,
+    score: 0
   };
 
   spawnPipe();
@@ -79,6 +83,11 @@ function startGame(ctx) {
     for (let x = 0; x < window.innerWidth + state.baseOffset; x += base.width * spriteScale) {
       ctx.drawImage(base, x - state.baseOffset, baseLevel, base.width * spriteScale, base.height * spriteScale);
     }
+
+    ctx.fillStyle = "#E9FCD9";
+    ctx.fillText(state.score, window.innerWidth/2, window.innerHeight/8);
+    ctx.fillStyle = "#000000";
+    ctx.strokeText(state.score, window.innerWidth/2, window.innerHeight/8);
   }
 
   function physics() {
@@ -100,6 +109,12 @@ function startGame(ctx) {
     for (let pos of state.pipes) {
       pos.x -= state.pace / window.innerHeight * state.alive;
 
+      if (state.bird.x - bird.radius > pos.x * window.innerHeight + pipe.width * spriteScale / 2 && !pos.passed){
+        // The "pos(ition)" variable doesn't really work here, but whatever
+        pos.passed = true;
+        state.score++;
+      }
+
       // Pipe collisions
       const pipeX = pos.x * window.innerHeight;
       const pipeY = window.innerHeight - pos.y * window.innerHeight;
@@ -109,6 +124,7 @@ function startGame(ctx) {
       if (betweenPipes && !inGap) {
         if (state.alive) {
           state.bird.force.y = -10;
+          gameOver(state.score);
         }
         state.alive = false;
       }
@@ -137,6 +153,7 @@ function startGame(ctx) {
 
     // Hitbox
     // 
+    // ctx.fillStyle = "red";
     // ctx.beginPath();
     // ctx.ellipse(0, 0, bird.radius, bird.radius, 0, 0, Math.PI * 2);
     // ctx.fill();
@@ -159,3 +176,9 @@ function startGame(ctx) {
   }
 }
 
+function gameOver(score) {
+  fetch("/score.php", {
+    method: "POST",
+    body: JSON.stringify({score: score})
+  })
+}

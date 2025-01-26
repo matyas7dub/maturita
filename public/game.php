@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +33,6 @@ let bgHeight = 0;
 let scale = 0;
 
 background.onload = () => {
-    console.debug("hello");
     bgWidth = background.width;
     bgHeight = background.height;
     scale = Math.max(window.innerWidth/bgWidth, 1);
