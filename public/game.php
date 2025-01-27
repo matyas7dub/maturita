@@ -11,6 +11,8 @@ session_start();
 <style>
 body {
     background-color: #4EC0CA;
+    overflow: hidden;
+    touch-action: none;
 }
 canvas {
     width: 100vw;

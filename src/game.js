@@ -2,10 +2,10 @@ function startGame(ctx) {
   ctx.imageSmoothingEnabled = false;
   ctx.textAlign = "center";
   ctx.strokeStyle = "#533545";
-  const gravity = 0.35;
-  const spriteScale = 2;
+  const spriteScale = window.innerHeight / 500;
+  const gravity = 0.2 * spriteScale;
   const pipeGap = 150;
-  const pipeDistance = 0.7;
+  const pipeDistance = Math.min(0.3 * spriteScale, window.innerWidth / window.innerHeight);
   ctx.lineWidth = 2 * spriteScale;
   ctx.font = `${48 * spriteScale}px Pixeloid`;
 
@@ -31,15 +31,15 @@ function startGame(ctx) {
   // x is unused, but I might want to add something later
   const state = {
     bird: {
-      x: window.innerHeight / 4,
-      y: 100,
+      x: window.innerHeight / 6,
+      y: window.innerHeight / 2,
       force: {
         x: 0,
         y: 0
       }
     },
     pipes: [],
-    pace: 7,
+    pace: spriteScale * 3,
     baseOffset: 0,
     alive: true,
     score: 0
@@ -48,9 +48,16 @@ function startGame(ctx) {
   spawnPipe();
   spawnPipe();
 
+  function flap() {
+    if (state.alive) {
+      state.bird.force.y = -30 * gravity;
+    }
+  }
+
+  addEventListener("mousedown", () => flap());
   addEventListener("keypress", event => {
-    if (event.key === " " && state.alive) {
-      state.bird.force.y = -10;
+    if(event.key === " ") {
+      flap(event);
     }
   });
 
@@ -73,7 +80,9 @@ function startGame(ctx) {
       ctx.translate(pos.x * window.innerHeight, window.innerHeight - pos.y * window.innerHeight)
       ctx.drawImage(pipe, 0, 0, pipe.width * spriteScale, pipe.height * spriteScale);
       ctx.rotate(Math.PI);
-      ctx.drawImage(pipe, -pipe.width * spriteScale, pipeGap * spriteScale, pipe.width * spriteScale, pipe.height * spriteScale);
+      ctx.scale(-1, 1);
+      ctx.drawImage(pipe, 0, pipeGap * spriteScale, pipe.width * spriteScale, pipe.height * spriteScale);
+      ctx.scale(-1, 1);
       ctx.rotate(-Math.PI);
       ctx.translate(-pos.x * window.innerHeight, -window.innerHeight + pos.y * window.innerHeight)
     }
@@ -132,7 +141,7 @@ function startGame(ctx) {
 
 
     state.pipes = state.pipes.filter(pos => pos.x * window.innerHeight >= -pipe.width * spriteScale);
-    if (state.pipes.length < window.innerWidth/window.innerHeight/pipeDistance) {
+    if (state.pipes.length < window.innerWidth / window.innerHeight / pipeDistance + 1) {
       spawnPipe()
     }
 
@@ -143,7 +152,7 @@ function startGame(ctx) {
 
   function drawBird() {
     const upForce = state.bird.force.y;
-    const rotation = Math.atan(upForce/10);
+    const rotation = Math.atan(upForce / (20 * gravity));
     const sprite = upForce < -2 ? bird.downflap :
       upForce < 5 ? bird.midflap : bird.upflap;
 
@@ -168,7 +177,7 @@ function startGame(ctx) {
   function spawnPipe() {
     state.pipes.push({
       x: state.pipes.length === 0 ?
-        window.innerWidth/window.innerHeight :
+        window.innerWidth/window.innerHeight * spriteScale / 2 :
         state.pipes[state.pipes.length - 1].x + pipeDistance,
       y: Math.random()/3 + 0.2,
       passed: false
