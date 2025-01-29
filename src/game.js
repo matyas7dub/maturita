@@ -3,9 +3,9 @@ function startGame(ctx) {
   ctx.textAlign = "center";
   ctx.strokeStyle = "#533545";
   const spriteScale = window.innerHeight / 500;
-  const gravity = 0.2 * spriteScale;
+  const gravity = spriteScale / 1_400;
   const pipeGap = 150;
-  const pipeDistance = Math.min(0.3 * spriteScale, window.innerWidth / window.innerHeight);
+  const pipeDistance = Math.min(0.5 * spriteScale, window.innerWidth / window.innerHeight);
   ctx.lineWidth = 2 * spriteScale;
   ctx.font = `${48 * spriteScale}px Pixeloid`;
 
@@ -39,10 +39,11 @@ function startGame(ctx) {
       }
     },
     pipes: [],
-    pace: spriteScale * 3,
+    pace: spriteScale / 5,
     baseOffset: 0,
     alive: true,
-    score: 0
+    score: 0,
+    deltaTime: performance.now()
   };
 
   spawnPipe();
@@ -50,7 +51,7 @@ function startGame(ctx) {
 
   function flap() {
     if (state.alive) {
-      state.bird.force.y = -30 * gravity;
+      state.bird.force.y = -500 * gravity;
     }
   }
 
@@ -66,13 +67,10 @@ function startGame(ctx) {
     state.bird.x = window.innerHeight / 4;
   });
 
-  // The framerate is set to 60 exactly because of poor sub-milisecond time
-  // measurements in browsers (due to security reasons). Most frames render in
-  // <1ms to 3ms, which means that physics with deltaTime is very inconsistent,
-  // if not completely broken since a large portion of frames render "in 0ms"
-  setInterval(mainLoop, 1000/60);
+  requestAnimationFrame(mainLoop);
 
-  function mainLoop() {
+  function mainLoop(timestamp) {
+    state.deltaTime = Math.min(timestamp - state.deltaTime, 100);
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     physics();
 
@@ -97,11 +95,13 @@ function startGame(ctx) {
     ctx.fillText(state.score, window.innerWidth/2, window.innerHeight/8);
     ctx.fillStyle = "#000000";
     ctx.strokeText(state.score, window.innerWidth/2, window.innerHeight/8);
+    state.deltaTime = timestamp;
+    requestAnimationFrame(mainLoop);
   }
 
   function physics() {
-    state.bird.force.y += gravity;
-    state.bird.y += state.bird.force.y;
+    state.bird.force.y += gravity * state.deltaTime;
+    state.bird.y += state.bird.force.y * state.deltaTime;
 
     // Top border collisions
     if (state.bird.y < -bird.height * spriteScale) {
@@ -112,11 +112,11 @@ function startGame(ctx) {
     // Ground collisions
     if (state.bird.y >= baseLevel - bird.height * spriteScale / 2) {
       state.bird.y = baseLevel - bird.height * spriteScale / 2;
-      state.bird.force.y = - Math.floor(state.bird.force.y * 0.7);
+      state.bird.force.y = - Math.floor(state.bird.force.y * 0.7 * 10) / 10;
     }
 
     for (let pos of state.pipes) {
-      pos.x -= state.pace / window.innerHeight * state.alive;
+      pos.x -= state.pace * state.deltaTime / window.innerHeight * state.alive;
 
       if (state.bird.x - bird.radius > pos.x * window.innerHeight + pipe.width * spriteScale / 2 && !pos.passed){
         // The "pos(ition)" variable doesn't really work here, but whatever
@@ -132,7 +132,7 @@ function startGame(ctx) {
       const inGap = state.bird.y + bird.radius < pipeY && state.bird.y - bird.radius > pipeY - pipeGap * spriteScale;
       if (betweenPipes && !inGap) {
         if (state.alive) {
-          state.bird.force.y = -10;
+          state.bird.force.y = -0.5;
           gameOver(state.score);
         }
         state.alive = false;
@@ -145,16 +145,16 @@ function startGame(ctx) {
       spawnPipe()
     }
 
-    state.pace += 1/1_000 * state.alive;
-    state.baseOffset += state.pace * state.alive;
-    state.baseOffset %= base.width;
+    state.pace += 1/280_000 * state.deltaTime * state.alive;
+    state.baseOffset += state.pace * state.deltaTime * state.alive;
+    state.baseOffset %= base.width * spriteScale;
   }
 
   function drawBird() {
     const upForce = state.bird.force.y;
-    const rotation = Math.atan(upForce / (20 * gravity));
-    const sprite = upForce < -2 ? bird.downflap :
-      upForce < 5 ? bird.midflap : bird.upflap;
+    const rotation = Math.atan(upForce * 4 / spriteScale);
+    const sprite = upForce < -0.12 ? bird.downflap :
+      upForce < 0.3 ? bird.midflap : bird.upflap;
 
 
     ctx.translate(state.bird.x, state.bird.y);
