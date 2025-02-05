@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] === "REMOVE") {
+if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
     // https://www.php.net/manual/en/function.session-destroy.php
 
     $_SESSION = array();
@@ -59,6 +59,11 @@ $email = $_SESSION["email"];
         <!-- I have no idea why I can't use align or justify -->
         <div style="visibility: hidden; flex-grow: 1"></div>
         <input type="submit" class="submit" value="Update" />
+    </div>
+
+    <div style="display: flex; flex-direction: row">
+        <button style="color: red" onclick="deleteAccount()">Delete</button>
+        <div style="visibility: hidden; flex-grow: 1"></div>
     </div>
 </form>
 <script>
@@ -130,9 +135,22 @@ async function update(event) {
 }
 
 function logout() {
-    fetch("/account.php", { method: "REMOVE" }).then(() => {
+    fetch("/account.php", { method: "DELETE" }).then(() => {
         window.location = "/";
     });
+}
+
+async function deleteAccount() {
+    const bearer = prompt("Enter your password");
+    const header = new Headers();
+    header.append("Authorization", await sha256(bearer));
+
+    fetch("/user.php", {
+      method: "DELETE",
+      headers: header  
+    })
+    .then(fetch("/account.php", { method: "DELETE" }))
+    .then(() => {window.location = "/";});
 }
 </script>
 </body>

@@ -106,5 +106,21 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             http_response_code(200);
         }
         break;
+
+    case "DELETE":
+        $id = $_SESSION["id"];
+        $authPassword = mysqli_real_escape_string($conn, $_SERVER["HTTP_AUTHORIZATION"]);
+
+        $result = $conn->query("
+                DELETE FROM users WHERE
+                    id=$id AND password=\"$authPassword\";
+            ");
+
+        if (mysqli_affected_rows($conn)) {
+            http_response_code(200);
+        } else {
+            http_response_code(404);
+        };
+        break;
 }
 ?>
