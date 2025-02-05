@@ -8,10 +8,12 @@ session_start();
 <link href="/css/style.css" rel="stylesheet"/>
 <link href="/css/userForm.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon">
+<?php include "../src/meta.php" ?>
 <script src="/src/crypto.js"></script>
 <title>Flappy bird: Login</title>
 </head>
 <body>
+<?php include "../src/breadcrumbs.php" ?>
 <h1>Login</h1>
 
 <form onsubmit="login(event)">
@@ -26,7 +28,7 @@ session_start();
 
     <span id="error" class="error">Invalid credentials!</span>
 
-    <a href="/register.html" style="align-self: center; margin: 1em;"
+    <a href="/register.php" style="align-self: center; margin: 1em;"
     >Not registered yet? Make an account here!</a>
 
     <input class="submit" type="submit" value="Login" />

@@ -7,6 +7,7 @@ session_start();
 <head>
 <link href="/css/style.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon">
+<?php include "../src/meta.php" ?>
 <title>Flappy bird: Scoreboard</title>
 <style>
 body {
@@ -37,6 +38,7 @@ table {
 </style>
 </head>
 <body>
+<?php include "../src/breadcrumbs.php" ?>
 <h1>Scoreboard - Top 20</h1>
 <table>
     <thead>

@@ -4,6 +4,7 @@
 <link href="/css/style.css" rel="stylesheet"/>
 <link href="/css/userForm.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon">
+<?php include "../src/meta.php" ?>
 <script src="/src/crypto.js"></script>
 <title>Flappy bird: Register</title>
 <style>
@@ -13,6 +14,7 @@ button {
 </style>
 </head>
 <body>
+<?php include "../src/breadcrumbs.php" ?>
 <h1>Register</h1>
 
 <form onSubmit="register(event)">

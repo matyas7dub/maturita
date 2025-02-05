@@ -7,6 +7,7 @@ session_start();
 <head>
 <link href="/css/style.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon">
+<?php include "../src/meta.php" ?>
 <title>Flappy bird</title>
 </head>
 <body>

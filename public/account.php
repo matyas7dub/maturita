@@ -24,10 +24,12 @@ if ($_SERVER["REQUEST_METHOD"] === "REMOVE") {
 <link href="/css/style.css" rel="stylesheet"/>
 <link href="/css/userForm.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon">
+<?php include "../src/meta.php" ?>
 <script src="/src/crypto.js"></script>
 <title><?php echo $_SESSION["username"]; ?></title>
 </head>
 <body>
+<?php include "../src/breadcrumbs.php" ?>
 <h1>Account</h1>
 
 <?php
