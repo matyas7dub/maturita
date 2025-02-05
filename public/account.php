@@ -136,7 +136,7 @@ async function update(event) {
 
 function logout() {
     fetch("/account.php", { method: "DELETE" }).then(() => {
-        window.location = "/";
+        window.location = "/?toast=Logged out successfully";
     });
 }
 
@@ -150,7 +150,7 @@ async function deleteAccount() {
       headers: header  
     })
     .then(fetch("/account.php", { method: "DELETE" }))
-    .then(() => {window.location = "/";});
+    .then(() => {window.location = "/?toast=Account deleted successfully";});
 }
 </script>
 </body>

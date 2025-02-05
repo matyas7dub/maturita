@@ -95,7 +95,7 @@ async function register(event) {
     })
     .then(async response => {
         if (response.ok) {
-            window.location.assign("/login.php");
+            window.location = "/login.php?toast=Registered successfully";
         } else {
             const errElem = document.getElementById("error");
             const error = await response.text();

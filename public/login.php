@@ -33,6 +33,8 @@ session_start();
 
     <input class="submit" type="submit" value="Login" />
 </form>
+
+<?php include "../src/toast.php" ?>
 <script>
 const nameInput = document.getElementById("name");
 const passInput = document.getElementById("password");
@@ -50,7 +52,7 @@ async function login(event) {
     .then(response => {
         const errElem = document.getElementById("error");
         if (response.ok) {
-            window.location = "/";
+            window.location = "/?toast=Logged in successfully";
         } else {
             errElem.style.display = "block";
         }

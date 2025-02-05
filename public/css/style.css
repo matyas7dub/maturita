@@ -51,7 +51,7 @@ a {
   cursor: pointer;
 }
 
-button, input, table, input.submit {
+button, input, table, input.submit, .toast {
   all: unset;
   margin: 0.15em;
   padding: 0.1em;
@@ -61,6 +61,13 @@ button, input, table, input.submit {
               max(2px, 0.1em) 0 0 0 black,
               0 min(-2px, -0.1em) 0 0 black,
               0 max(2px, 0.1em) 0 0 black;
+}
+
+.toast {
+  position: fixed;
+  bottom: 2vh;
+  font-size: 1.5em;
+  transition: opacity 0.2s;
 }
 
 button, input.submit {

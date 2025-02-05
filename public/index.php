@@ -24,5 +24,7 @@ session_start();
     }
     ?>
 </div>
+
+<?php include "../src/toast.php" ?>
 </body>
 </html>
