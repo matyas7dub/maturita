@@ -24,6 +24,9 @@ function startGame(ctx) {
   const pipe = new Image();
   pipe.src = "/assets/pipe-green.png";
 
+  const pipeReverse = new Image();
+  pipeReverse.src = "/assets/pipe-green-reverse.png";
+
   const base = new Image();
   base.src = "/assets/base.png";
   let baseLevel = window.innerHeight * 0.9;
@@ -77,11 +80,7 @@ function startGame(ctx) {
     for (let pos of state.pipes) {
       ctx.translate(pos.x * window.innerHeight, window.innerHeight - pos.y * window.innerHeight)
       ctx.drawImage(pipe, 0, 0, pipe.width * spriteScale, pipe.height * spriteScale);
-      ctx.rotate(Math.PI);
-      ctx.scale(-1, 1);
-      ctx.drawImage(pipe, 0, pipeGap * spriteScale, pipe.width * spriteScale, pipe.height * spriteScale);
-      ctx.scale(-1, 1);
-      ctx.rotate(-Math.PI);
+      ctx.drawImage(pipeReverse, 0, -(pipe.height + pipeGap) * spriteScale, pipeReverse.width * spriteScale, pipeReverse.height * spriteScale);
       ctx.translate(-pos.x * window.innerHeight, -window.innerHeight + pos.y * window.innerHeight)
     }
 
