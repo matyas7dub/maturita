@@ -3,7 +3,7 @@ h1 {
 }
 
 body {
-    padding-top: calc(15vh + 3em);
+    padding-top: calc(8vh + 3em);
 }
 
 form {
@@ -34,5 +34,19 @@ form {
         display: none;
         align-self: center;
         color: red;
+    }
+}
+
+dialog > form {
+    display: flex;
+    flex-direction: column;
+    font-size: 2rem;
+
+    label {
+        margin-left: 0.1em;
+    }
+
+    button {
+        margin-top: 0.5em;
     }
 }

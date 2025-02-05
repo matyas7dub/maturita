@@ -55,22 +55,33 @@ $email = $_SESSION["email"];
     </div>
 
     <div style="display: flex; flex-direction: row">
-        <button onclick="logout()">Logout</button>
+        <button type="button" onclick="logout()">Logout</button>
         <!-- I have no idea why I can't use align or justify -->
         <div style="visibility: hidden; flex-grow: 1"></div>
-        <input type="submit" class="submit" value="Update" />
+        <button type="submit" class="submit">Update</button>
     </div>
 
     <div style="display: flex; flex-direction: row">
-        <button style="color: red" onclick="deleteAccount()">Delete</button>
+        <button type="button" style="color: red" onclick="deleteAccount()">Delete</button>
         <div style="visibility: hidden; flex-grow: 1"></div>
     </div>
 </form>
+
+<dialog id="passwordDialog">
+    <form onsubmit="closeDialog(event)">
+        <label for="dialogPassword">Enter your password</label>
+        <input id="dialogPassword" type="password" required autofocus />
+
+        <button type="submit" class="submit">Confirm</button>
+    </form>
+</dialog>
 <script>
 const usernameInput = document.getElementById("username");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const passwordCheckInput = document.getElementById("passwordCheck");
+const passwordDialog = document.getElementById("passwordDialog");
+const dialogPasswordInput = document.getElementById("dialogPassword");
 
 const passwordCheckDiv = document.getElementById("passwordCheckDiv");
 const passwordError = document.getElementById("passError");
@@ -82,6 +93,13 @@ passwordInput.addEventListener("change", () => {
         passwordCheckDiv.style.display = "none";
     }
 });
+
+const dialogCallback = { current: () => {} };
+function closeDialog(event) {
+    event.preventDefault();
+    passwordDialog.close();
+    dialogCallback.current(dialogPasswordInput.value);
+}
 
 function checkPasswords() {
     if (passwordInput.value !== passwordCheckInput.value) {
@@ -120,18 +138,22 @@ async function update(event) {
         return;
     }
 
-    const bearer = prompt("Enter your current password");
-    const header = new Headers();
-    header.append("Authorization", await sha256(bearer));
+    dialogCallback.current = async dialogPassword => {
+        const header = new Headers();
+        header.append("Authorization", await sha256(dialogPassword));
 
-    fetch("/user.php", {
-        method: "PUT",
-        body: JSON.stringify(request),
-        headers: header
-    })
-    .then(() => {
-        window.location.reload();
-    });
+        fetch("/user.php", {
+            method: "PUT",
+            body: JSON.stringify(request),
+            headers: header
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            }
+        });
+    };
+    passwordDialog.showModal();
 }
 
 function logout() {
@@ -141,16 +163,23 @@ function logout() {
 }
 
 async function deleteAccount() {
-    const bearer = prompt("Enter your password");
-    const header = new Headers();
-    header.append("Authorization", await sha256(bearer));
+    dialogCallback.current = async dialogPassword => {
+        const header = new Headers();
+        header.append("Authorization", await sha256(dialogPassword));
 
-    fetch("/user.php", {
-      method: "DELETE",
-      headers: header  
-    })
-    .then(fetch("/account.php", { method: "DELETE" }))
-    .then(() => {window.location = "/?toast=Account deleted successfully";});
+        fetch("/user.php", {
+          method: "DELETE",
+          headers: header
+        })
+        .then(async response => {
+            if (response.ok) {
+                fetch("/account.php", { method: "DELETE" })
+                .then(() => {window.location = "/?toast=Account deleted successfully";});
+            }
+            // TODO: else show wrong password error
+        });
+    };
+    passwordDialog.showModal();
 }
 </script>
 </body>

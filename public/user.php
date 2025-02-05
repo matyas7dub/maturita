@@ -104,6 +104,8 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             }
 
             http_response_code(200);
+        } else {
+            http_response_code(404);
         }
         break;
 
@@ -120,7 +122,7 @@ switch ($_SERVER["REQUEST_METHOD"]) {
             http_response_code(200);
         } else {
             http_response_code(404);
-        };
+        }
         break;
 }
 ?>
