@@ -7,6 +7,13 @@ if (isset($_GET["toast"])) {
         const toast = document.getElementById(\"toast\");
         setTimeout(() => {
             toast.style.opacity = \"0\";
+            const queryParams = new URLSearchParams(window.location.search);
+            queryParams.delete(\"toast\");
+            window.history.replaceState(
+                null,
+                \"\",
+                \"?\" + queryParams.toString()
+            );
         }, 3000);
     </script>";
 }
