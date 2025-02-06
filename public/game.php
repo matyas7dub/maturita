@@ -21,8 +21,7 @@ canvas {
     z-index: 2;
 }
 img {
-    image-rendering: -webkit-optimize-contrast; /* webkit */
-    image-rendering: -moz-crisp-edges /* Firefox */ 
+    image-rendering: pixelated;
 }
 </style>
 </head>

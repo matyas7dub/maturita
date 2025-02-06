@@ -1,4 +1,4 @@
-function startGame(ctx) {
+async function startGame(ctx) {
   ctx.imageSmoothingEnabled = false;
   ctx.textAlign = "center";
   ctx.strokeStyle = "#533545";
@@ -69,6 +69,14 @@ function startGame(ctx) {
     baseLevel = window.innerHeight * 0.9;
     state.bird.x = window.innerHeight / 4;
   });
+
+  // wait for images
+  await bird.downflap.decode();
+  await bird.midflap.decode();
+  await bird.upflap.decode();
+  await pipe.decode();
+  await pipeReverse.decode();
+  await base.decode();
 
   requestAnimationFrame(mainLoop);
 
