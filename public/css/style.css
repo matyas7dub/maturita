@@ -70,6 +70,14 @@ button, input, table, input.submit, .toast {
   transition: opacity 0.2s;
 }
 
+dialog {
+  border: none;
+  box-shadow: -0.15em 0 0 0 black,
+              0.15em 0 0 0 black,
+              0 -0.15em 0 0 black,
+              0 0.15em 0 0 black;
+}
+
 button, input.submit {
   cursor: pointer;
 }

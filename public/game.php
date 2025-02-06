@@ -20,12 +20,39 @@ canvas {
     height: 100vh;
     z-index: 2;
 }
+dialog {
+    font-size: 2em;
+
+    >div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h1 {
+            margin: 0.1em;
+        }
+
+        span {
+            margin-bottom: 1em;
+        }
+    }
+}
 img {
     image-rendering: pixelated;
 }
 </style>
 </head>
 <body>
+<dialog id="gameOverDialog">
+    <div>
+        <h1>GAME OVER!</h1>
+        <span id="score"></span>
+        <div>
+            <a href="/"><button>Go to menu</button></a>
+            <button autofocus onclick="window.location.reload()">Play again</button> 
+        </div>
+    </div>
+</dialog>
 <canvas id="mainCanvas"></canvas>
 <img id="background" style="position: fixed; left: 0;" src="/assets/background-day.png" />
 <script>
@@ -55,6 +82,12 @@ addEventListener("resize", () => {
     scale = Math.max(window.innerWidth/bgWidth, 1);
     background.width = bgWidth * scale;
     background.height = bgHeight * scale;
+});
+
+document.getElementById("gameOverDialog").addEventListener("keydown", event => {
+   if (event.key === "Escape") {
+       event.preventDefault();
+   }
 });
 
 const ctx = canvas.getContext("2d");

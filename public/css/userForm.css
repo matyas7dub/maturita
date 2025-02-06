@@ -37,16 +37,19 @@ form {
     }
 }
 
-dialog > form {
-    display: flex;
-    flex-direction: column;
+dialog {
     font-size: 2rem;
 
-    label {
-        margin-left: 0.1em;
-    }
+    > form {
+        display: flex;
+        flex-direction: column;
 
-    button {
-        margin-top: 0.5em;
+        label {
+            margin-left: 0.1em;
+        }
+
+        button {
+            margin-top: 0.5em;
+        }
     }
 }

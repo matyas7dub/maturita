@@ -137,12 +137,10 @@ async function startGame(ctx) {
 
       const betweenPipes = state.bird.x + bird.radius > pipeX && state.bird.x - bird.radius < pipeX + pipe.width * spriteScale;
       const inGap = state.bird.y + bird.radius < pipeY && state.bird.y - bird.radius > pipeY - pipeGap * spriteScale;
-      if (betweenPipes && !inGap) {
-        if (state.alive) {
+      if (betweenPipes && !inGap && state.alive) {
+          state.alive = false;
           state.bird.force.y = -0.5;
           gameOver(state.score);
-        }
-        state.alive = false;
       }
     }
 
@@ -193,6 +191,9 @@ async function startGame(ctx) {
 }
 
 function gameOver(score) {
+  document.getElementById("score").innerText = `Score: ${score}`;
+  document.getElementById("gameOverDialog").showModal();
+
   fetch("/score.php", {
     method: "POST",
     body: JSON.stringify({score: score})
