@@ -1,6 +1,7 @@
 <?php
 if (isset($_GET["toast"])) {
-    echo "<div id=\"toast\" class=\"toast\">";
+    $class = isset($_GET["toastType"]) ? "toast " . $_GET["toastType"] : "toast";
+    echo "<div id=\"toast\" class=\"$class\">";
     echo $_GET["toast"];
     echo "</div>";
     echo "<script>
@@ -9,6 +10,7 @@ if (isset($_GET["toast"])) {
             toast.style.opacity = \"0\";
             const queryParams = new URLSearchParams(window.location.search);
             queryParams.delete(\"toast\");
+            queryParams.delete(\"toastType\");
             window.history.replaceState(
                 null,
                 \"\",

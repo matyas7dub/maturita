@@ -1,15 +1,12 @@
 @font-face {
-  font-family: "Flappybirdy";
-  src:
-    local("Flappybirdy"),
-    url("../fonts/flappybirdy-font/FlappybirdyRegular-KaBW.ttf") format("truetype");
-}
-
-@font-face {
   font-family: "Pixeloid";
   src:
     local("Pixeloid"),
     url("../fonts/pixeloid-font/PixeloidSans-mLxMm.ttf") format("truetype");
+}
+
+* {
+  color: #533545;
 }
 
 body {
@@ -21,10 +18,10 @@ body {
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background-color: #E9FCD9;
 }
 
 .menu {
-  font-family: "Flappybirdy";
   padding-top: calc(2rem + 8vh);
 
   display: flex;
@@ -32,16 +29,12 @@ body {
   align-items: center;
 
   #title {
-    font-size: calc(2em + 96px);
-    margin-bottom: 0.2em;
+    font-size: calc(1.5em + 64px);
+    margin-bottom: 0.4em;
   }
 
   button {
-    font-size: calc(1em + 48px);
-  }
-
-  button:hover {
-    background: yellow;
+    font-size: calc(1em + 32px);
   }
 }
 
@@ -57,10 +50,10 @@ button, input, table, input.submit, .toast {
   padding: 0.1em;
   padding-left: 0.7em;
   padding-right: 0.7em;
-  box-shadow: min(-2px, -0.1em) 0 0 0 black,
-              max(2px, 0.1em) 0 0 0 black,
-              0 min(-2px, -0.1em) 0 0 black,
-              0 max(2px, 0.1em) 0 0 black;
+  box-shadow: min(-2px, -0.1em) 0 0 0 #533545,
+              max(2px, 0.1em) 0 0 0 #533545,
+              0 min(-2px, -0.1em) 0 0 #533545,
+              0 max(2px, 0.1em) 0 0 #533545;
 }
 
 .toast {
@@ -70,16 +63,28 @@ button, input, table, input.submit, .toast {
   transition: opacity 0.2s;
 }
 
+.toast.success {
+  background-color: #5EE270;
+}
+
+.toast.error {
+  background-color: #FC3500;
+}
+
 dialog {
   border: none;
-  box-shadow: -0.15em 0 0 0 black,
-              0.15em 0 0 0 black,
-              0 -0.15em 0 0 black,
-              0 0.15em 0 0 black;
+  box-shadow: -0.15em 0 0 0 #533545,
+              0.15em 0 0 0 #533545,
+              0 -0.15em 0 0 #533545,
+              0 0.15em 0 0 #533545;
 }
 
 button, input.submit {
   cursor: pointer;
+}
+
+button:hover {
+  background-color: #4EC0CA;
 }
 
 button:disabled, input.submit:disabled {

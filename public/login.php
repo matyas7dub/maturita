@@ -28,8 +28,9 @@ session_start();
 
     <span id="error" class="error">Invalid credentials!</span>
 
-    <a href="/register.php" style="align-self: center; margin: 1em;"
-    >Not registered yet? Make an account here!</a>
+    <a href="/register.php" style="align-self: center; margin: 1em; text-decoration: underline;">
+        Not registered yet? Make an account here!
+    </a>
 
     <input class="submit" type="submit" value="Login" />
 </form>
@@ -50,10 +51,10 @@ async function login(event) {
 
     fetch(`/user.php?name=${name}&password=${password}`)
     .then(response => {
-        const errElem = document.getElementById("error");
         if (response.ok) {
-            window.location = "/?toast=Logged in successfully";
+            window.location = "/?toast=Logged in successfully&toastType=success";
         } else {
+            const errElem = document.getElementById("error");
             errElem.style.display = "block";
         }
     });

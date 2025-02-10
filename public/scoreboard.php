@@ -28,11 +28,11 @@ table {
         width: 100%;
         font-size: 0.5em;
         padding: 0.2em;
-        border: 1px solid black;
+        border: 2px solid #533545;
     }
 
     tr.highlight {
-        background-color: yellow;
+        background-color: #4EC0CA;
     }
 }
 </style>

@@ -22,7 +22,7 @@ form {
         }
 
         input:invalid {
-            color: red;
+            color: #FC3500;
         }
     }
 
@@ -33,7 +33,7 @@ form {
     .error {
         display: none;
         align-self: center;
-        color: red;
+        color: #FC3500;
     }
 }
 

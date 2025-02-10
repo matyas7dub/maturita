@@ -62,7 +62,7 @@ $email = $_SESSION["email"];
     </div>
 
     <div style="display: flex; flex-direction: row">
-        <button type="button" style="color: red" onclick="deleteAccount()">Delete</button>
+        <button type="button" style="color: #FC3500" onclick="deleteAccount()">Delete</button>
         <div style="visibility: hidden; flex-grow: 1"></div>
     </div>
 </form>
@@ -158,7 +158,7 @@ async function update(event) {
 
 function logout() {
     fetch("/account.php", { method: "DELETE" }).then(() => {
-        window.location = "/?toast=Logged out successfully";
+        window.location = "/?toast=Logged out successfully&toastType=success";
     });
 }
 
@@ -174,7 +174,7 @@ async function deleteAccount() {
         .then(async response => {
             if (response.ok) {
                 fetch("/account.php", { method: "DELETE" })
-                .then(() => {window.location = "/?toast=Account deleted successfully";});
+                .then(() => {window.location = "/?toast=Account deleted successfully&toastType=success";});
             }
             // TODO: else show wrong password error
         });
