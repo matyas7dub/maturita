@@ -72,6 +72,7 @@ button, input, table, input.submit, .toast {
 }
 
 dialog {
+  background-color: #E9FCD9;
   border: none;
   box-shadow: -0.15em 0 0 0 #533545,
               0.15em 0 0 0 #533545,

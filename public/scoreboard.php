@@ -25,10 +25,20 @@ table {
     font-size: calc(1vw + 1.5rem);
 
     th, td {
-        width: 100%;
         font-size: 0.5em;
         padding: 0.2em;
         border: 2px solid #533545;
+        text-align: center;
+    }
+
+    td.wide {
+        text-align: left;
+        width: 100%;
+    }
+
+    tr.personal {
+        border-top: 4px solid #533545;
+        border-bottom: 4px solid #533545;
     }
 
     tr.highlight {
@@ -42,6 +52,7 @@ table {
 <h1>Scoreboard - Top 20</h1>
 <table>
     <thead>
+        <th>Rank</th>
         <th>Username</th>
         <th>Score</th>
     </thead>
@@ -49,11 +60,37 @@ table {
 <?php
     include "../src/db.php";
 
+    if (isset($_SESSION["id"])) {
+        $id = $_SESSION["id"];
+        $result = $conn->query("
+                WITH numbered_rows AS (
+                    SELECT u.id, u.username, s.score, ROW_NUMBER() OVER (ORDER BY score DESC) as row_index FROM
+                        scores s LEFT JOIN users u
+                        ON s.user_id = u.id
+                )
+                SELECT * FROM numbered_rows
+                WHERE id = $id
+                LIMIT 1;
+            ");
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        if (count($rows)) {
+            $row = $rows[0];
+
+            $index = $row["row_index"];
+            $username = $row["username"];
+            $score = $row["score"];
+            echo "<tr class=\"highlight personal\">
+                    <td>$index</td>
+                    <td class=\"wide\">$username</td>
+                    <td>$score</td>
+                </tr>";
+        }
+    }
+
     $result = $conn->query("
-        SELECT u.id, u.username, s.score FROM
+        SELECT u.id, u.username, s.score, ROW_NUMBER() OVER (ORDER BY score DESC) as row_index FROM
             scores s LEFT JOIN users u
             ON s.user_id = u.id
-            ORDER BY score DESC
             LIMIT 20;
         ");
     $rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -65,9 +102,10 @@ table {
             echo "<tr>";
         }
 
+        $index = $row["row_index"];
         $username = $row["username"];
         $score = $row["score"];
-        echo "<td>$username</td><td>$score</td></tr>";
+        echo "<td>$index</td><td class=\"wide\">$username</td><td>$score</td></tr>";
     }
 ?>
 </table>
