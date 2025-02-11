@@ -1,5 +1,7 @@
 <?php
 include "../src/db.php";
+include "../src/send_email.php";
+include "../src/uuid.php";
 session_start();
 http_response_code(400);
 
@@ -55,11 +57,17 @@ switch ($_SERVER["REQUEST_METHOD"]) {
                     print("This email is already in use!");
                 }
             } else {
+                $uuid = get_uuid();
                 $conn->query("
-                    INSERT INTO users (username, email, password)
-                    VALUES (\"$username\", \"$email\", \"$password\");
+                    INSERT INTO users (username, email, password, verified)
+                    VALUES (\"$username\", \"$email\", \"$password\", \"$uuid\");
                 ");
+
                 http_response_code(200);
+
+                // this hangs for a second or two, but I didn't find a good way
+                // to respond to the request before exiting the script entirely
+                send_verification_email($email, $uuid);
             }
         }
         break;
@@ -77,6 +85,11 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         if (isset($input["email"])) {
             $email = mysqli_real_escape_string($conn, $input["email"]);
             $values[] = "email=\"$email\"";
+            $uuid = get_uuid();
+            $values[] = "verified=\"$uuid\"";
+            register_shutdown_function(function() use ($email, $uuid) {
+                send_verification_email($email, $uuid);
+            });
         }
         if (isset($input["password"])) {
             $password = mysqli_real_escape_string($conn, $input["password"]);
@@ -110,8 +123,15 @@ switch ($_SERVER["REQUEST_METHOD"]) {
         break;
 
     case "DELETE":
+        http_response_code(500);
         $id = $_SESSION["id"];
         $authPassword = mysqli_real_escape_string($conn, $_SERVER["HTTP_AUTHORIZATION"]);
+
+        $result = $conn->query("
+                DELETE s FROM scores s LEFT JOIN users u
+                    on s.user_id = u.id
+                    WHERE s.user_id=$id AND u.password=\"$authPassword\";
+            ");
 
         $result = $conn->query("
                 DELETE FROM users WHERE

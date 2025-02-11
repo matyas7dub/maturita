@@ -27,9 +27,24 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
 <?php include "../src/meta.php" ?>
 <script src="/src/crypto.js"></script>
 <title><?php echo $_SESSION["username"]; ?></title>
+<style>
+div.warning {
+    font-size: 0.7em;
+    margin-top: -0.5em;
+    margin-bottom: 0.5em;
+
+    span {
+        color: #F8B82F;
+        margin-right: 1em;
+    }
+}
+</style>
 </head>
 <body>
-<?php include "../src/breadcrumbs.php" ?>
+<?php
+include "../src/breadcrumbs.php";
+include "../src/toast.php";
+?>
 <h1>Account</h1>
 
 <?php
@@ -45,6 +60,26 @@ $email = $_SESSION["email"];
         <label for="email">E-Mail</label>
         <input id="email" type="email" value=<?php echo"\"$email\""; ?> />
     </div>
+    <?php
+    include "../src/db.php";
+
+    $id = $_SESSION["id"];
+    $result = $conn->query("
+        SELECT id FROM users WHERE
+            id=$id AND NOT verified=\"yes\"
+            LIMIT 1;
+        ");
+    $data = $result->fetch_assoc();
+
+    if ($data != null) {
+        echo "
+            <div class=\"warning\">
+                <span>Your email is not verified!</span>
+                <button onclick=\"resendEmail()\">Resend email</button>
+            </div>
+            ";
+    }
+    ?>
     <div>
         <label for="password">New password</label>
         <input id="password" type="password" />
@@ -177,6 +212,27 @@ async function deleteAccount() {
                 .then(() => {window.location = "/?toast=Account deleted successfully&toastType=success";});
             }
             // TODO: else show wrong password error
+        });
+    };
+    passwordDialog.showModal();
+}
+
+function resendEmail() {
+    dialogCallback.current = async dialogPassword => {
+        const header = new Headers();
+        header.append("Authorization", await sha256(dialogPassword));
+
+        fetch("/user.php", {
+            method: "PUT",
+            body: JSON.stringify({
+                email: "<?php echo $_SESSION["email"] ?>"
+            }),
+            headers: header
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location = "/account.php?toast=Email sent successfully&toastType=success";
+            }
         });
     };
     passwordDialog.showModal();
