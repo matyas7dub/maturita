@@ -66,4 +66,5 @@ Není-li veřejný SSL certifikát vyžadovaný, je možné nastavit `DOMAIN` ja
 
 
 # Poděkování
-Textury: [samuelcust/flappy-bird-assets](https://github.com/samuelcust/flappy-bird-assets)
+- Textury: [samuelcust/flappy-bird-assets](https://github.com/samuelcust/flappy-bird-assets)
+- E-Mail: [PHPMailer](https://github.com/PHPMailer/PHPMailer)
