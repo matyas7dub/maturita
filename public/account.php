@@ -75,7 +75,7 @@ $email = $_SESSION["email"];
         echo "
             <div class=\"warning\">
                 <span>Your email is not verified!</span>
-                <button onclick=\"resendEmail()\">Resend email</button>
+                <button type=\"button\" onclick=\"resendEmail()\">Resend email</button>
             </div>
             ";
     }
