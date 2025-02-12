@@ -5,6 +5,7 @@ Projekt je hostován na adrese [bird.7dub.dev](https://bird.7dub.dev).
 - [Instalace](#instalace)
   - [NixOS](#nixos)
   - [Manuální](#manuální)
+- [Konfigurace](#konfigurace)
 - [Běžné problémy](#běžné-problémy)
 - [Poděkování](#poděkování)
 
@@ -15,11 +16,6 @@ V případě instalace na NixOS stačí pouze naklonovat repozitář do `/srv/ca
 importovat modul `deploy.nix` do `configuration.nix` nebo `flake.nix`.  
 Toto vytvoří systémovou systemd jednotku `caddy.service` ve které běží Caddy
 (FrankenPHP) na portech 80 a 443 a další systémovou jednotku `mysql.service`.  
-Pro změnu očekávané domény (kvůli SSL certifikátu) nebo portu (pro vyhnutí
-privilegovaným portům 0-1023), lze použít proměnné prostředí `DOMAIN` a `PORT`
-ve formátech `<doména>:<HTTPS port>` a `<HTTP port>` respektive. Tyto proměnné
-by měly být nastavené přes `systemd.services.caddy.serviceConfig.Environment`
-v `deploy.nix`.
 
 ### Vývojové prostředí
 Pokud chcete pouze lokální server pro vývoj, spusťte `nix develop` a spustí se
@@ -35,6 +31,23 @@ Spusťte `./SQL/create.sql` pro vytvoření databáze a nastavte proměnné pros
 respektive.  
 Webserver spusťte pomocí příkazu `php frankenphp run --envfile ./.env` ve
 složce, kam jste dříve naklonoval tento repozitář.
+
+
+
+# Konfigurace
+
+## E-Mail
+Pro funkční email je nutné vytvořit soubor `.env` a nastavit v něm SMTP
+heslo jako `EMAIL_PASSWORD=<heslo>`. Pokud chcete použít jinou adresu než
+"noreply@7dub.dev" nebo jiný SMTP server než "smtp.gmail.com", musíte změnit
+konfiguraci v `./src/send_email.php`.
+
+## Doména a porty (NixOS)
+Pro změnu očekávané domény (kvůli SSL certifikátu) nebo portu (pro vyhnutí
+privilegovaným portům 0-1023), lze použít proměnné prostředí `DOMAIN` a `PORT`
+ve formátech `<doména>:<HTTPS port>` a `<HTTP port>` respektive. Tyto proměnné
+by měly být nastavené přes `systemd.services.caddy.serviceConfig.Environment`
+v `deploy.nix`.
 
 
 
