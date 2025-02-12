@@ -12,25 +12,25 @@ Projekt je hostován na adrese [bird.7dub.dev](https://bird.7dub.dev).
 # Instalace
 
 ## NixOS
-V případě instalace na NixOS stačí pouze naklonovat repozitář do `/srv/caddy` a
+V případě instalace na NixOS stačí pouze naklonovat repositář do `/srv/caddy` a
 importovat modul `deploy.nix` do `configuration.nix` nebo `flake.nix`.  
 Toto vytvoří systémovou systemd jednotku `caddy.service` ve které běží Caddy
 (FrankenPHP) na portech 80 a 443 a další systémovou jednotku `mysql.service`.  
 
 ### Vývojové prostředí
 Pokud chcete pouze lokální server pro vývoj, spusťte `nix develop` a spustí se
-server s lokálním SSL certifikátem jako `SCREEN(1)` s názvem `php`. Server si
+server s lokálním TLS certifikátem jako `SCREEN(1)` s názvem `php`. Server si
 můžete zobrazit pomocí `screen -r php`.
 
 ## Manuální
 Nainstalujte FrankenPHP dle [jejich dokumentace](https://frankenphp.dev/docs/).  
 Nainstalujte MySQL databázi. (doporučuji [MariaDB](https://mariadb.com/kb/en/getting-installing-and-upgrading-mariadb/))  
-Naklonujte tento repozitář.  
+Naklonujte tento repositář.  
 Spusťte `./SQL/create.sql` pro vytvoření databáze a nastavte proměnné prostředí
 `DOMAIN` a `PORT` ve formátech `<doména>:<HTTPS port>` a `<HTTP port>`
 respektive.  
 Webserver spusťte pomocí příkazu `php frankenphp run --envfile ./.env` ve
-složce, kam jste dříve naklonoval tento repozitář.
+složce, kam jste dříve naklonoval tento repositář.
 
 
 
@@ -43,7 +43,7 @@ heslo jako `EMAIL_PASSWORD=<heslo>`. Pokud chcete použít jinou adresu než
 konfiguraci v `./src/send_email.php`.
 
 ## Doména a porty (NixOS)
-Pro změnu očekávané domény (kvůli SSL certifikátu) nebo portu (pro vyhnutí
+Pro změnu očekávané domény (kvůli TLS certifikátu) nebo portu (pro vyhnutí
 privilegovaným portům 0-1023), lze použít proměnné prostředí `DOMAIN` a `PORT`
 ve formátech `<doména>:<HTTPS port>` a `<HTTP port>` respektive. Tyto proměnné
 by měly být nastavené přes `systemd.services.caddy.serviceConfig.Environment`
@@ -70,14 +70,14 @@ nutné `./SQL/create.sql` spustit manuálně.
 
 ## Manuální instalace
 ### Chyba certifikátu
-Caddy se pokusí získat SSL certifikát na doménu určenou v `DOMAIN` pomocí [Let's
+Caddy se pokusí získat TLS certifikát na doménu určenou v `DOMAIN` pomocí [Let's
 Encrypt](https://letsencrypt.org/), což znamená, že musí webserver odpovídat na
 požadavky na danou adresu. Tato chyba by tedy mohla vzniknout :
   - špatně přesměrovanými porty
   - omezujícími pravidly firewallu
   - špatnou doménou v `DOMAIN`
 
-Není-li veřejný SSL certifikát vyžadovaný, je možné nastavit `DOMAIN` jako
+Není-li veřejný TLS certifikát vyžadovaný, je možné nastavit `DOMAIN` jako
 `localhost:<HTTPS port>`, což vystaví lokálně podepsaný certifikát.
 
 
