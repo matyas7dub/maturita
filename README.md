@@ -49,6 +49,10 @@ ve formátech `<doména>:<HTTPS port>` a `<HTTP port>` respektive. Tyto proměnn
 by měly být nastavené přes `systemd.services.caddy.serviceConfig.Environment`
 v `deploy.nix`.
 
+## Databáze
+Aplikace předpokládá, že databáze je přístupná na `localhost:3306` s uživatelem
+`root` s heslem `root`. Případné změny musíte provést v souboru `./src/db.php`.
+
 
 
 # Běžné problémy
