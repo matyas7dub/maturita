@@ -82,18 +82,22 @@ $email = $_SESSION["email"];
     ?>
     <div>
         <label for="password">New password</label>
-        <input id="password" type="password" />
+        <input id="password" type="password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+            title="Must contain at least one  number and one uppercase and lowercase letter, and at least 6 or more characters" />
     </div>
     <div id="passwordCheckDiv" style="display: none;">
         <label for="passwordCheck">Repeat password</label>
-        <input id="passwordCheck" type="password" />
+        <input id="passwordCheck" type="password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+            title="Must contain at least one  number and one uppercase and lowercase letter, and at least 6 or more characters" />
     </div>
 
     <div style="display: flex; flex-direction: row">
         <button type="button" onclick="logout()">Logout</button>
         <!-- I have no idea why I can't use align or justify -->
         <div style="visibility: hidden; flex-grow: 1"></div>
-        <button type="submit" class="submit">Update</button>
+        <button disabled type="submit" class="submit" id="submit">Update</button>
     </div>
 
     <div style="display: flex; flex-direction: row">
@@ -117,6 +121,8 @@ const passwordInput = document.getElementById("password");
 const passwordCheckInput = document.getElementById("passwordCheck");
 const passwordDialog = document.getElementById("passwordDialog");
 const dialogPasswordInput = document.getElementById("dialogPassword");
+
+const submitButton = document.getElementById("submit");
 
 const passwordCheckDiv = document.getElementById("passwordCheckDiv");
 const passwordError = document.getElementById("passError");
@@ -147,6 +153,27 @@ function checkPasswords() {
 
 passwordInput.addEventListener("change", checkPasswords);
 passwordCheckInput.addEventListener("change", checkPasswords);
+
+function toggleUpdateButton() {
+    <?php
+        $username = $_SESSION["username"];
+        $email = $_SESSION["email"];
+        echo "const username = \"$username\";";
+        echo "const email = \"$email\";";
+    ?>
+
+    if (usernameInput.value !== username ||
+        emailInput.value !== email ||
+        passwordInput.value !== "") {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+}
+
+usernameInput.addEventListener("change", toggleUpdateButton);
+emailInput.addEventListener("change", toggleUpdateButton);
+passwordInput.addEventListener("change", toggleUpdateButton);
 
 async function update(event) {
     event.preventDefault();
