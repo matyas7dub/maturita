@@ -12,8 +12,9 @@ Projekt je hostován na adrese [bird.7dub.dev](https://bird.7dub.dev).
 # Instalace
 
 ## NixOS
-V případě instalace na NixOS stačí pouze naklonovat repositář do `/srv/caddy` a
-importovat modul `deploy.nix` do `configuration.nix` nebo `flake.nix`.  
+V případě instalace na NixOS stačí pouze naklonovat repositář do `/srv/caddy`,
+stáhnout závislosti pomocí `composer install` a importovat modul `deploy.nix` do
+`configuration.nix` nebo `flake.nix`.  
 Toto vytvoří systémovou systemd jednotku `caddy.service` ve které běží Caddy
 (FrankenPHP) na portech 80 a 443 a další systémovou jednotku `mysql.service`.  
 
@@ -24,7 +25,8 @@ můžete zobrazit pomocí `screen -r php`.
 
 ## Manuální
 Po manuální instalaci je nutné nakonfigurovat prostředí a databázi viz.
-[konfigurace](#konfigurace).
+[konfigurace](#konfigurace).  
+Závislosti stáhněte pomocí Composer-u příkazem `composer install`.
 
 ### Webserver
 Aplikace vyžaduje webserver, který je schopný zpracovávat PHP a podporuje i

@@ -3,9 +3,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMAiler\SMTP;
 
-require_once(dirname(__FILE__).'/PHPMailer/src/Exception.php');
-require_once(dirname(__FILE__).'/PHPMailer/src/PHPMailer.php');
-require_once(dirname(__FILE__).'/PHPMailer/src/SMTP.php');
+require_once(dirname(__FILE__).'../vendor/phpmailer/phpmailer/src/Exception.php');
+require_once(dirname(__FILE__).'../vendor/phpmailer/phpmailer/src/PHPMailer.php');
+require_once(dirname(__FILE__).'../vendor/phpmailer/phpmailer/src/SMTP.php');
 
 
 function send_email($addr_to, $subject, $body)
