@@ -23,14 +23,21 @@ server s lokálním TLS certifikátem jako `SCREEN(1)` s názvem `php`. Server s
 můžete zobrazit pomocí `screen -r php`.
 
 ## Manuální
-Nainstalujte FrankenPHP dle [jejich dokumentace](https://frankenphp.dev/docs/).  
-Nainstalujte MySQL databázi. (doporučuji [MariaDB](https://mariadb.com/kb/en/getting-installing-and-upgrading-mariadb/))  
-Naklonujte tento repositář.  
-Spusťte `./SQL/create.sql` pro vytvoření databáze a nastavte proměnné prostředí
-`DOMAIN` a `PORT` ve formátech `<doména>:<HTTPS port>` a `<HTTP port>`
-respektive.  
-Webserver spusťte pomocí příkazu `php frankenphp run --envfile ./.env` ve
-složce, kam jste dříve naklonoval tento repositář.
+Po manuální instalaci je nutné nakonfigurovat prostředí a databázi viz.
+[konfigurace](#konfigurace).
+
+### Webserver
+Aplikace vyžaduje webserver, který je schopný zpracovávat PHP a podporuje i
+`.env` soubory pro kompletní funkcionalitu bez manuálního nastavování proměnných
+pro SMTP.  
+Doporučuji [FrankenPHP](https://frankenphp.dev/docs/), jelikož podporuje
+potřebnou functionalitu a také sám aktualizuje TLS certifikáty. Spustit lze
+pomocí příkazu `php frankenphp run --envfile ./.env`.
+
+### Databáze
+Nainstalujte MySQL databázi (doporučuji
+[MariaDB](https://mariadb.com/kb/en/getting-installing-and-upgrading-mariadb/))
+a vytvořte databázi pomocí `./SQL/create.sql`.
 
 
 
@@ -42,16 +49,16 @@ heslo jako `EMAIL_PASSWORD=<heslo>`. Pokud chcete použít jinou adresu než
 "noreply@7dub.dev" nebo jiný SMTP server než "smtp.gmail.com", musíte změnit
 konfiguraci v `./src/send_email.php`.
 
-## Doména a porty (NixOS)
+## Doména a porty
 Pro změnu očekávané domény (kvůli TLS certifikátu) nebo portu (pro vyhnutí
 privilegovaným portům 0-1023), lze použít proměnné prostředí `DOMAIN` a `PORT`
-ve formátech `<doména>:<HTTPS port>` a `<HTTP port>` respektive. Tyto proměnné
-by měly být nastavené přes `systemd.services.caddy.serviceConfig.Environment`
-v `deploy.nix`.
+ve formátech `<doména>:<HTTPS port>` a `<HTTP port>` respektive.  
+V případě instalace pomocí NixOS modulu by měly být nastavené přes
+`systemd.services.caddy.serviceConfig.Environment` v `deploy.nix`.
 
 ## Databáze
 Aplikace předpokládá, že databáze je přístupná na `localhost:3306` s uživatelem
-`root` s heslem `root`. Případné změny musíte provést v souboru `./src/db.php`.
+`root` a heslem `root`. Případné změny musíte provést v souboru `./src/db.php`.
 
 
 
@@ -70,7 +77,7 @@ nutné `./SQL/create.sql` spustit manuálně.
 
 ## Manuální instalace
 ### Chyba certifikátu
-Caddy se pokusí získat TLS certifikát na doménu určenou v `DOMAIN` pomocí [Let's
+Caddy se pokusí získat TLS certifikát pro doménu určenou v `DOMAIN` pomocí [Let's
 Encrypt](https://letsencrypt.org/), což znamená, že musí webserver odpovídat na
 požadavky na danou adresu. Tato chyba by tedy mohla vzniknout :
   - špatně přesměrovanými porty
