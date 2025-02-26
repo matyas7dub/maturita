@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/css/style.css" rel="stylesheet"/>
-<link href="/css/userForm.css" rel="stylesheet"/>
-<link href="/favicon.png" rel="icon">
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/userForm.css" rel="stylesheet"/>
+<link href="./favicon.png" rel="icon">
 <?php include "../src/meta.php" ?>
-<script src="/src/crypto.js"></script>
+<script src="../src/crypto.js"></script>
 <title>Flappy bird: Register</title>
 <style>
 button {
@@ -89,13 +89,13 @@ async function register(event) {
         password: await sha256(pass)
     };
 
-    fetch("/user.php", {
+    fetch("./user.php", {
         method: "POST",
         body: JSON.stringify(user)
     })
     .then(async response => {
         if (response.ok) {
-            window.location = "/login.php?toast=Registered successfully&toastType=success";
+            window.location = "./login.php?toast=Registered successfully&toastType=success";
         } else {
             const errElem = document.getElementById("error");
             const error = await response.text();

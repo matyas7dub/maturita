@@ -17,18 +17,18 @@ async function startGame(ctx) {
     height: 24,
     radius: 34 * spriteScale * 0.4
   };
-  bird.downflap.src = "/assets/yellowbird-downflap.png";
-  bird.midflap.src = "/assets/yellowbird-midflap.png";
-  bird.upflap.src = "/assets/yellowbird-upflap.png";
+  bird.downflap.src = "./assets/yellowbird-downflap.png";
+  bird.midflap.src = "./assets/yellowbird-midflap.png";
+  bird.upflap.src = "./assets/yellowbird-upflap.png";
 
   const pipe = new Image();
-  pipe.src = "/assets/pipe-green.png";
+  pipe.src = "./assets/pipe-green.png";
 
   const pipeReverse = new Image();
-  pipeReverse.src = "/assets/pipe-green-reverse.png";
+  pipeReverse.src = "./assets/pipe-green-reverse.png";
 
   const base = new Image();
-  base.src = "/assets/base.png";
+  base.src = "./assets/base.png";
   let baseLevel = window.innerHeight * 0.9;
 
   // x is unused, but I might want to add something later
@@ -194,7 +194,7 @@ function gameOver(score) {
   document.getElementById("score").innerText = `Score: ${score}`;
   document.getElementById("gameOverDialog").showModal();
 
-  fetch("/score.php", {
+  fetch("./score.php", {
     method: "POST",
     body: JSON.stringify({score: score})
   })

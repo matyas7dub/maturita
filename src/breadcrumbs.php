@@ -1,4 +1,4 @@
-<a href="/">
+<a href="./index.php">
     <button style="
         font-size: 1.5em;
         position: absolute;

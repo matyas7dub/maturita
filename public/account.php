@@ -21,11 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/css/style.css" rel="stylesheet"/>
-<link href="/css/userForm.css" rel="stylesheet"/>
-<link href="/favicon.png" rel="icon">
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/userForm.css" rel="stylesheet"/>
+<link href="./favicon.png" rel="icon">
 <?php include "../src/meta.php" ?>
-<script src="/src/crypto.js"></script>
+<script src="../src/crypto.js"></script>
 <title><?php echo $_SESSION["username"]; ?></title>
 <style>
 div.warning {
@@ -204,7 +204,7 @@ async function update(event) {
         const header = new Headers();
         header.append("Authorization", await sha256(dialogPassword));
 
-        fetch("/user.php", {
+        fetch("./user.php", {
             method: "PUT",
             body: JSON.stringify(request),
             headers: header
@@ -219,8 +219,8 @@ async function update(event) {
 }
 
 function logout() {
-    fetch("/account.php", { method: "DELETE" }).then(() => {
-        window.location = "/?toast=Logged out successfully&toastType=success";
+    fetch("./account.php", { method: "DELETE" }).then(() => {
+        window.location = "./index.php?toast=Logged out successfully&toastType=success";
     });
 }
 
@@ -229,14 +229,14 @@ async function deleteAccount() {
         const header = new Headers();
         header.append("Authorization", await sha256(dialogPassword));
 
-        fetch("/user.php", {
+        fetch("./user.php", {
           method: "DELETE",
           headers: header
         })
         .then(async response => {
             if (response.ok) {
-                fetch("/account.php", { method: "DELETE" })
-                .then(() => {window.location = "/?toast=Account deleted successfully&toastType=success";});
+                fetch("./account.php", { method: "DELETE" })
+                .then(() => {window.location = "./index.php?toast=Account deleted successfully&toastType=success";});
             }
             // TODO: else show wrong password error
         });
@@ -249,7 +249,7 @@ function resendEmail() {
         const header = new Headers();
         header.append("Authorization", await sha256(dialogPassword));
 
-        fetch("/user.php", {
+        fetch("./user.php", {
             method: "PUT",
             body: JSON.stringify({
                 email: "<?php echo $_SESSION["email"] ?>"
@@ -258,7 +258,7 @@ function resendEmail() {
         })
         .then(response => {
             if (response.ok) {
-                window.location = "/account.php?toast=Email sent successfully&toastType=success";
+                window.location = "./account.php?toast=Email sent successfully&toastType=success";
             }
         });
     };

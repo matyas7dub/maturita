@@ -15,7 +15,7 @@ if (isset($_GET["uuid"])) {
         ");
 
     if (mysqli_affected_rows($conn)) {
-        header("Location: /login.php?toast=E-Mail verified successfully&toastType=success", true, 302);
+        header("Location: ./login.php?toast=E-Mail verified successfully&toastType=success", true, 302);
     }
 }
 ?>

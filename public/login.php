@@ -5,11 +5,11 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/css/style.css" rel="stylesheet"/>
-<link href="/css/userForm.css" rel="stylesheet"/>
-<link href="/favicon.png" rel="icon">
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./css/userForm.css" rel="stylesheet"/>
+<link href="./favicon.png" rel="icon">
 <?php include "../src/meta.php" ?>
-<script src="/src/crypto.js"></script>
+<script src="../src/crypto.js"></script>
 <title>Flappy bird: Login</title>
 </head>
 <body>
@@ -28,7 +28,7 @@ session_start();
 
     <span id="error" class="error">Invalid credentials!</span>
 
-    <a href="/register.php" style="align-self: center; margin: 1em; text-decoration: underline;">
+    <a href="./register.php" style="align-self: center; margin: 1em; text-decoration: underline;">
         Not registered yet? Make an account here!
     </a>
 
@@ -49,10 +49,10 @@ async function login(event) {
     const name = nameInput.value;
     const password = await sha256(passInput.value);
 
-    fetch(`/user.php?name=${name}&password=${password}`)
+    fetch(`./user.php?name=${name}&password=${password}`)
     .then(response => {
         if (response.ok) {
-            window.location = "/?toast=Logged in successfully&toastType=success";
+            window.location = "./index.php?toast=Logged in successfully&toastType=success";
         } else {
             const errElem = document.getElementById("error");
             errElem.style.display = "block";

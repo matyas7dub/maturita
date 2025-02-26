@@ -4,10 +4,10 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/css/style.css" rel="stylesheet"/>
-<link href="/favicon.png" rel="icon">
+<link href="./css/style.css" rel="stylesheet"/>
+<link href="./favicon.png" rel="icon">
 <?php include "../src/meta.php" ?>
-<script src="/src/game.js"></script>
+<script src="../src/game.js"></script>
 <title>Flappy bird</title>
 <style>
 body {
@@ -48,13 +48,13 @@ img {
         <h1>GAME OVER!</h1>
         <span id="score"></span>
         <div>
-            <a href="/"><button>Go to menu</button></a>
+            <a href="./index.php"><button>Go to menu</button></a>
             <button autofocus onclick="window.location.reload()">Play again</button> 
         </div>
     </div>
 </dialog>
 <canvas id="mainCanvas"></canvas>
-<img id="background" style="position: fixed; left: 0;" src="/assets/background-day.png" />
+<img id="background" style="position: fixed; left: 0;" src="./assets/background-day.png" />
 <script>
 const background = document.getElementById("background");
 let bgWidth = 0;
