@@ -34,7 +34,7 @@ Aplikace vyžaduje webserver, který je schopný zpracovávat PHP a podporuje i
 pro SMTP.  
 Doporučuji [FrankenPHP](https://frankenphp.dev/docs/), jelikož podporuje
 potřebnou functionalitu a také sám aktualizuje TLS certifikáty. Spustit lze
-pomocí příkazu `php frankenphp run --envfile ./.env`.
+pomocí příkazu `frankenphp run --envfile ./.env`.
 
 ### Databáze
 Nainstalujte MySQL databázi (doporučuji

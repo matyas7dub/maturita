@@ -56,7 +56,7 @@ function send_email($addr_to, $subject, $body)
 function send_verification_email($addr_to, $uuid) {
     $domain = $_ENV["DOMAIN"];
     send_email($addr_to, "Verify your email", "
-            <a href=\"https://$domain/verify.php?uuid=$uuid\">Verify your email here</a>
+            <a href=\"https://$domain/public/verify.php?uuid=$uuid\">Verify your email here</a>
         ");
 }
 ?>
